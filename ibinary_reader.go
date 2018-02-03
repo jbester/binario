@@ -18,3 +18,8 @@ type IBinaryReader interface {
 	ReadInt64s(expected int) ([]int64, error)
 	Skip(count int) error
 }
+
+type IBinaryBufferReader interface {
+	IBinaryReader
+	Len() int
+}

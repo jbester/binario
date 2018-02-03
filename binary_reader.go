@@ -13,12 +13,31 @@ type BinaryReader struct {
 	endian binary.ByteOrder
 }
 
-func BigEndianBufferReader(buf []byte) IBinaryReader {
-	return BigEndianReaderFrom(bytes.NewBuffer(buf))
+type BinaryBufferReader struct {
+	BinaryReader
+	buffer *bytes.Buffer
 }
 
-func LittleEndianBufferReader(buf []byte) IBinaryReader {
-	return LittleEndianReaderFrom(bytes.NewBuffer(buf))
+func BigEndianBufferReader(buf []byte) IBinaryBufferReader {
+	var buffer = bytes.NewBuffer(buf)
+	return BinaryBufferReader{
+		BinaryReader: BinaryReader{
+			raw:    buffer,
+			endian: binary.BigEndian,
+		},
+		buffer: buffer,
+	}
+}
+
+func LittleEndianBufferReader(buf []byte) IBinaryBufferReader {
+	var buffer = bytes.NewBuffer(buf)
+	return BinaryBufferReader{
+		BinaryReader: BinaryReader{
+			raw:    buffer,
+			endian: binary.LittleEndian,
+		},
+		buffer: buffer,
+	}
 }
 
 func BigEndianReaderFrom(reader io.Reader) IBinaryReader {
@@ -30,6 +49,10 @@ func LittleEndianReaderFrom(reader io.Reader) IBinaryReader {
 }
 
 var ErrShortRead = errors.New("short read")
+
+func (reader BinaryBufferReader) Len() int {
+	return reader.Len()
+}
 
 func (reader BinaryReader) ReadByte() (byte, error) {
 	var ReadSize = Size(byte(0))
