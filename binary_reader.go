@@ -159,6 +159,7 @@ func (reader BinaryReader) ReadInt64s(expected int) ([]int64, error) {
 	return value, err
 }
 
+//  Skip n bytes of the output
 func (reader BinaryReader) Skip(count int) error {
 	var b = make([]byte, count)
 	var n, err = reader.raw.Read(b)
@@ -171,6 +172,11 @@ func (reader BinaryReader) Skip(count int) error {
 	return nil
 }
 
+//  Read any fixed size value. The  parameter should be a pointer to the underlying type.
+// // var value uint32
+// // if err :=  reader.Read(&value); err != nil {
+// //     ...
+// // }
 func (reader BinaryReader) Read(value interface{}) error {
 	return binary.Read(reader.raw, reader.endian, value)
 }

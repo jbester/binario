@@ -91,6 +91,7 @@ func (writer BinaryWriter) WriteInt64s(values []int64) error {
 	return binary.Write(writer.raw, writer.endian, values)
 }
 
+//  Write any fixed sized type or array of fixed size types
 func (writer BinaryWriter) Write(value interface{}) error {
 	return binary.Write(writer.raw, writer.endian, value)
 }
