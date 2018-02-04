@@ -1,6 +1,9 @@
 package binaryio
 
+// IBinaryWriter exposes methods to write fixed sized numbers to
+// an underlying writer implementation
 type IBinaryWriter interface {
+	//  Write any fixed sized type or array of fixed size types
 	Write(interface{}) error
 	WriteByte(byte) error
 	WriteBytes([]byte) error
@@ -18,7 +21,9 @@ type IBinaryWriter interface {
 	WriteUint64s([]uint64) error
 }
 
+// IBinaryBufferWriter implements the IBinaryWriter interfaces on top of bytes.Buffer
 type IBinaryBufferWriter interface {
 	IBinaryWriter
+	// Return the binary representation of
 	Bytes() []byte
 }

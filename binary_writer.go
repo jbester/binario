@@ -10,10 +10,12 @@ type BinaryWriter struct {
 	endian binary.ByteOrder
 }
 
+// Create a new big endian writer using the provided writer as the underlying stream
 func NewBigEndianFromWriter(writer io.Writer) IBinaryWriter {
 	return BinaryWriter{raw: writer, endian: binary.BigEndian}
 }
 
+// Create a new little endian writer using the provided writer as the underlying stream
 func NewLittleEndianFromWriter(writer io.Writer) IBinaryWriter {
 	return BinaryWriter{raw: writer, endian: binary.LittleEndian}
 }

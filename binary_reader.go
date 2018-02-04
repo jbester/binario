@@ -5,6 +5,7 @@ import (
 	"io"
 
 	"bytes"
+
 	"github.com/pkg/errors"
 )
 
@@ -18,6 +19,7 @@ type BinaryBufferReader struct {
 	buffer *bytes.Buffer
 }
 
+//  Create a new big endian reader using the provided buf as the underlying stream.
 func BigEndianBufferReader(buf []byte) IBinaryBufferReader {
 	var buffer = bytes.NewBuffer(buf)
 	return BinaryBufferReader{
@@ -29,6 +31,7 @@ func BigEndianBufferReader(buf []byte) IBinaryBufferReader {
 	}
 }
 
+//  Create a new little endian reader using the provided buf as the underlying stream.
 func LittleEndianBufferReader(buf []byte) IBinaryBufferReader {
 	var buffer = bytes.NewBuffer(buf)
 	return BinaryBufferReader{
@@ -40,22 +43,25 @@ func LittleEndianBufferReader(buf []byte) IBinaryBufferReader {
 	}
 }
 
+//  Create a new big endian reader using the provided reader as the underlying stream.
 func BigEndianReaderFrom(reader io.Reader) IBinaryReader {
 	return BinaryReader{raw: reader, endian: binary.BigEndian}
 }
 
+//  Create a new little endian reader using the provided reader as the underlying stream.
 func LittleEndianReaderFrom(reader io.Reader) IBinaryReader {
 	return BinaryReader{raw: reader, endian: binary.LittleEndian}
 }
 
 var ErrShortRead = errors.New("short read")
 
+//  Return the number of bytes remaining in the buffer
 func (reader BinaryBufferReader) Len() int {
 	return reader.Len()
 }
 
 func (reader BinaryReader) ReadByte() (byte, error) {
-	var ReadSize = Size(byte(0))
+	const ReadSize = 1
 	var b = make([]byte, ReadSize)
 	var n, err = reader.raw.Read(b)
 	if err != nil {
